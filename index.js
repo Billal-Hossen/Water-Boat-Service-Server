@@ -61,6 +61,16 @@ app.get('/boats', (req, res) => {
             res.send(documents);
         })
 });
+
+
+app.get('/boats/:id', (req, res) => {
+    const id=req.params.id;
+    console.log(id)
+    serviceCollection.find({_id: ObjectId(id)})
+        .toArray((err, documen) => {
+            res.send(documen[0]);
+        })
+});
 app.get('/SearchBoat', (req, res) => {
     serviceCollection.find({})
         .toArray((err, doc) => {
@@ -124,7 +134,8 @@ app.post('/addAdmin',(req,res)=>{
 
 })
 app.post('/findAdmin',(req,res)=>{
-    const email=email.body.email;
+    const email=req.body.email;
+ 
     adminCollection.find({email:email})
     .toArray((err,items)=>{
         res.send(items.length > 0)
